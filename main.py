@@ -45,12 +45,12 @@ def reset_fields():
     # Reset all input fields
     text_input.delete(0, tk.END)
     combo1.set('')
-    date_entry.set_date('')
     combo3.set('')
+    text_input.delete()
     text_input.grid_remove()
     text_label.grid_remove()
     text_input_visible.set(False)
-    text_input2.set('')
+    text_input2.delete()
 
 def select_file():
     global pdf_path
@@ -94,7 +94,7 @@ combo1.bind("<<ComboboxSelected>>", on_combo1_change)
 
 # Date Entry
 ttk.Label(root, text="Date du payement:").grid(column=0, row=3)
-date_entry = DateEntry(root)
+date_entry = DateEntry(root, date_pattern="dd-mm-yy")
 date_entry.grid(column=1, row=3)
 
 # Payment Method

@@ -43,14 +43,13 @@ def submit():
 
 def reset_fields():
     # Reset all input fields
-    text_input.delete(0, tk.END)
     combo1.set('')
     combo3.set('')
-    text_input.delete()
+    text_input.delete(0,'end')
     text_input.grid_remove()
     text_label.grid_remove()
     text_input_visible.set(False)
-    text_input2.delete()
+    text_input2.delete(0,'end')
 
 def select_file():
     global pdf_path

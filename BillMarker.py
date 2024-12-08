@@ -33,8 +33,10 @@ def submit():
     rect = fitz.Rect(100, 100, 300, 150)  # Define the rectangle for highlighting
     if combo1_value == "Remboursé":
         text = f"{file_name} \n{combo1_value} le {date_value} \nà {custom_text} \npar RIFT \nvia {combo3_value}"
+    elif combo1_value == "Annulé":
+        text = f"{file_name} \n{combo1_value} le {date_value} \npar NdC:"
     else:
-        text = f"{file_name}\n {combo1_value} le {date_value} \npar RIFT \nvia {combo3_value}"
+        text = f"{file_name} \n{combo1_value} le {date_value} \npar RIFT \nvia {combo3_value}"
     if opt_text != "":
         text = text+f"\n{opt_text}"
     add_text_box_and_highlight(file_dir, file_name, text, rect)
@@ -86,8 +88,8 @@ text_label = ttk.Label(root, text="à:")
 text_input = tk.Entry(root, width=40)
 
 # Paid/Reimbursed/... combo box
-ttk.Label(root, text="Payé ou Remboursé:").grid(column=0, row=2)
-combo1 = ttk.Combobox(root, values=["Payé", "Remboursé"])
+ttk.Label(root, text="Etat:").grid(column=0, row=2)
+combo1 = ttk.Combobox(root, values=["Payé", "Remboursé", "Annulé"])
 combo1.grid(column=1, row=2)
 combo1.bind("<<ComboboxSelected>>", on_combo1_change)
 

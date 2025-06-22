@@ -53,7 +53,7 @@ class PDFMarkerApp(App):
                 ("Payé", "Payé"),
                 ("Remboursé", "Remboursé"),
                 ("Annulé", "Annulé"),
-            ], id="etat")
+            ], id="state")
 
             yield Label("à:", id="text_label")
             yield Input(placeholder="à", id="text_input")
@@ -95,10 +95,11 @@ class PDFMarkerApp(App):
         await self.push_screen(FilePickerScreen(FILE_DIR), callback=self.set_pdf_path)  # Push FilePickerScreen
 
 
-    @on(Select.Changed, "#etat")
+    @on(Select.Changed, "#state")
     def toggle_extra_input(self, event: Select.Changed):
         self.show_extra_input = event.value == "Remboursé"
-        self.query_one("#text_input", Input).visible = self.show_extra_input
+        self.query_one("#text_input", Input).display = self.show_extra_input
+        self.query_one("#text_label", Label).display = self.show_extra_input
 
     @on(Button.Pressed, "#submit")
     def handle_submit(self):
@@ -109,18 +110,18 @@ class PDFMarkerApp(App):
         file_name = os.path.basename(self.pdf_path).split(".")[0]
         file_dir = os.path.dirname(self.pdf_path)
 
-        etat = self.query_one("#etat", Select).value
+        state = self.query_one("#state", Select).value
         date = self.query_one("#date_input", Input).value
         via = self.query_one("#method", Select).value
         note = self.query_one("#note_input", Input).value
         custom_text = self.query_one("#text_input", Input).value if self.show_extra_input else ""
 
-        if etat == "Remboursé":
-            text = f"{file_name} \n{etat} le {date} \nà {custom_text} \npar RIFT \nvia {via}"
-        elif etat == "Annulé":
-            text = f"{file_name} \n{etat} le {date} \npar NdC:"
+        if state == "Remboursé":
+            text = f"{file_name} \n{state} le {date} \nà {custom_text} \npar RIFT \nvia {via}"
+        elif state == "Annulé":
+            text = f"{file_name} \n{state} le {date} \npar NdC:"
         else:
-            text = f"{file_name} \n{etat} le {date} \npar RIFT \nvia {via}"
+            text = f"{file_name} \n{state} le {date} \npar RIFT \nvia {via}"
 
         if note:
             text += f"\n{note}"
